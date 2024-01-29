@@ -4,7 +4,6 @@ namespace Vortechstudio\LaravelGithubIssues;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Vortechstudio\LaravelGithubIssues\Commands\LaravelGithubIssuesCommand;
 
 class LaravelGithubIssuesServiceProvider extends PackageServiceProvider
 {

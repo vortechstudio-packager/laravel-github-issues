@@ -8,7 +8,6 @@ use Vortechstudio\LaravelGithubIssues\Jobs\GithubIssueHandlerJob;
 
 class LaravelGithubIssues extends AbstractProcessingHandler
 {
-
     protected function write(LogRecord $record): void
     {
         dispatch(new GithubIssueHandlerJob($record))->onQueue('github_error');
