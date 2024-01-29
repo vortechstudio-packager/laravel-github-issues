@@ -35,6 +35,7 @@ class GithubIssueHandlerJob implements ShouldQueue
             'context' => $this->record['context'],
             'level' => $this->record['level_name'],
             'time' => $this->record['datetime']->format('Y-m-d H:i:s'),
+            'env' => config('app.env'),
         ];
 
         if (config('github-issues.openai.state') === true) {
@@ -49,6 +50,7 @@ class GithubIssueHandlerJob implements ShouldQueue
             Contexte: <?= json_encode($errorDetails['context']) ?>
             Niveau: <?= $errorDetails['level'] ?>
             Date: <?= $errorDetails['time'] ?>
+            Environnement: <?= $errorDetails['env'] ?>
 
             ## Description
             <?= $openai[0]['description'] ?>
@@ -72,6 +74,7 @@ class GithubIssueHandlerJob implements ShouldQueue
             Contexte: <?= json_encode($errorDetails['context']) ?>
             Niveau: <?= $errorDetails['level'] ?>
             Date: <?= $errorDetails['time'] ?>
+            Environnement: <?= $errorDetails['env'] ?>
             <?php
             $issueContent = ob_get_clean();
         }
