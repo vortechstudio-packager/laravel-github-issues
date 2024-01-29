@@ -16,8 +16,7 @@ class GithubIssueHandlerJob implements ShouldQueue
 
     public function __construct(
         public LogRecord $record
-    )
-    {
+    ) {
     }
 
     public function handle(): void
@@ -25,7 +24,7 @@ class GithubIssueHandlerJob implements ShouldQueue
         $this->storeToGithub();
     }
 
-    private function storeToGithub(): string|null
+    private function storeToGithub(): ?string
     {
         $client = new Client();
         $client->authenticate(config('services.github.token'), null, Client::AUTH_ACCESS_TOKEN);
@@ -38,7 +37,7 @@ class GithubIssueHandlerJob implements ShouldQueue
             'time' => $this->record['datetime']->format('Y-m-d H:i:s'),
         ];
 
-        if(config('github-issues.openai.state') === true) {
+        if (config('github-issues.openai.state') === true) {
 
             $openai = $this->generateDescriptionWithGpt($errorTitle, $errorDetails);
 
@@ -88,8 +87,9 @@ class GithubIssueHandlerJob implements ShouldQueue
                         'labels' => ['bug', 'auto-generated'],
                     ]
                 );
+
             return null;
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return "Impossible de créer une issue sur Github: {$exception->getMessage()}";
         }
     }
@@ -99,43 +99,43 @@ class GithubIssueHandlerJob implements ShouldQueue
         $results = collect();
 
         $describe = \OpenAI\Client::chat()->create([
-            "model" => "gpt-3.5-turbo",
-            "messages" => [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
                 [
-                    "role" => "assistant",
-                    "content" => "Description sous le format issue de GITHUB: \n".$errorTitle."\n".$errorDetails["message"]."\n".$errorDetails["context"],
+                    'role' => 'assistant',
+                    'content' => "Description sous le format issue de GITHUB: \n".$errorTitle."\n".$errorDetails['message']."\n".$errorDetails['context'],
                 ],
-            ]
+            ],
         ]);
 
         $reproduce = \OpenAI\Client::chat()->create([
-            "model" => "gpt-3.5-turbo",
-            "messages" => [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
                 [
-                    "role" => "assistant",
-                    "content" => "Comment reproduire l'erreur: \n".$errorTitle."\n".$errorDetails["message"]."\n".$errorDetails["context"],
+                    'role' => 'assistant',
+                    'content' => "Comment reproduire l'erreur: \n".$errorTitle."\n".$errorDetails['message']."\n".$errorDetails['context'],
                 ],
-            ]
+            ],
         ]);
 
         $comportement = \OpenAI\Client::chat()->create([
-            "model" => "gpt-3.5-turbo",
-            "messages" => [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
                 [
-                    "role" => "assistant",
-                    "content" => "Comportement attendu: \n".$errorTitle."\n".$errorDetails["message"]."\n".$errorDetails["context"],
+                    'role' => 'assistant',
+                    'content' => "Comportement attendu: \n".$errorTitle."\n".$errorDetails['message']."\n".$errorDetails['context'],
                 ],
-            ]
+            ],
         ]);
 
         $solution = \OpenAI\Client::chat()->create([
-            "model" => "gpt-3.5-turbo",
-            "messages" => [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
                 [
-                    "role" => "assistant",
-                    "content" => "Solution proposé: \n".$errorTitle."\n".$errorDetails["message"]."\n".$errorDetails["context"],
+                    'role' => 'assistant',
+                    'content' => "Solution proposé: \n".$errorTitle."\n".$errorDetails['message']."\n".$errorDetails['context'],
                 ],
-            ]
+            ],
         ]);
 
         $results->push(['description' => $describe->choices[0]->message->content]);
