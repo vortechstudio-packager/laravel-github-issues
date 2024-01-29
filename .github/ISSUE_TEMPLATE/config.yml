@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Ask a question
-    url: https://github.com/Vortech Studio/laravel-github-issues/discussions/new?category=q-a
-    about: Ask the community for help
-  - name: Request a feature
-    url: https://github.com/Vortech Studio/laravel-github-issues/discussions/new?category=ideas
-    about: Share ideas for new features
-  - name: Report a security issue
+  - name: Vous avez une question
+    url: https://github.com/vortechstudio-packager/laravel-github-issues/discussions/categories/q-a
+    about: Demander à notre communauté
+  - name: J'ai une idée pour ce package ?
+    url: https://github.com/vortechstudio-packager/laravel-github-issues/discussions/categories/ideas
+    about: Proposer une idée pour ce package
+  - name: J'ai trouvé une faille de sécurité
     url: https://github.com/Vortech Studio/laravel-github-issues/security/policy
-    about: Learn how to notify us for sensitive bugs
+    about: Découvrez comment nous signaler les bugs sensibles
