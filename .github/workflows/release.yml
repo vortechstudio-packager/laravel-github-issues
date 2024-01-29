@@ -2,7 +2,7 @@ name: Determine and Tag Next Release
 on:
   push:
     branches:
-      - main
+      - production
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Important pour récupérer toutes les tags et commits
 
